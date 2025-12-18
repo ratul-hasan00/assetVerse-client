@@ -1,9 +1,7 @@
-import { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../Context/AuthContext";
 import toast from "react-hot-toast";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 
 const MyAssets = () => {
     const { user } = useContext(AuthContext);
@@ -11,7 +9,6 @@ const MyAssets = () => {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [filterType, setFilterType] = useState("All");
-    const tableRef = useRef();
 
     // Fetch assigned assets for logged-in employee
     useEffect(() => {
@@ -56,26 +53,6 @@ const MyAssets = () => {
         }
     };
 
-    // PDF Generation
-    const generatePDF = async () => {
-        if (!tableRef.current) return;
-
-        try {
-            const canvas = await html2canvas(tableRef.current, { scale: 2 });
-            const imgData = canvas.toDataURL("image/png");
-
-            const pdf = new jsPDF("p", "mm", "a4");
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-            pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-            pdf.save(`Assigned_Assets_${user?.email || "user"}.pdf`);
-        } catch (err) {
-            console.error("PDF generation error:", err);
-            toast.error("Failed to generate PDF");
-        }
-    };
-
     // Filtering logic
     const filteredAssets = assets.filter(asset => {
         const matchesSearch = asset.assetName?.toLowerCase().includes(search.toLowerCase());
@@ -90,21 +67,10 @@ const MyAssets = () => {
     return (
         <div className="p-6">
             {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                <div>
-                    <h2 className="text-3xl font-bold text-gray-800">My Assets</h2>
-                    <p className="text-gray-500">
-                        Assets assigned to you from all companies
-                    </p>
-                </div>
-                <button
-                    onClick={generatePDF}
-                    disabled={loading || assets.length === 0}
-                    className={`btn bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 text-white ${loading || assets.length === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
-                >
-                    Download PDF
-                </button>
-            </div>
+            <h2 className="text-3xl font-bold mb-2 text-gray-800">My Assets</h2>
+            <p className="text-gray-500 mb-6">
+                Assets assigned to you from all companies
+            </p>
 
             {/* Controls */}
             <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -135,7 +101,7 @@ const MyAssets = () => {
                     </p>
                 </div>
             ) : (
-                <div className="overflow-x-auto" ref={tableRef}>
+                <div className="overflow-x-auto">
                     <table className="table w-full table-auto">
                         <thead className="bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 text-white">
                             <tr>
@@ -151,6 +117,7 @@ const MyAssets = () => {
                         <tbody>
                             {filteredAssets.map(asset => (
                                 <tr key={asset._id} className="hover:bg-gray-50 transition">
+                                    {/* Asset Info */}
                                     <td className="flex items-center gap-3">
                                         <img
                                             src={asset.productImage || asset.assetImage}
