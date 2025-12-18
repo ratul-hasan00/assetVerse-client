@@ -20,15 +20,15 @@ const Navbar = () => {
         { name: "My Assets", to: "/dashboard/my-assets" },
         { name: "Request Asset", to: "/dashboard/request-asset" },
         { name: "My Team", to: "/dashboard/my-team" },
-        { name: "Profile", to: "/dashboard/profile" },
+        { name: "Profile", to: "/dashboard/employeeProfile" },
     ];
 
     const hrLinks = [
         { name: "Asset List", to: "/dashboard/assets" },
         { name: "Add Asset", to: "/dashboard/add-asset" },
-        { name: "All Requests", to: "/dashboard/requests" },
+        { name: "All Requests", to: "/dashboard/Allrequests" },
         { name: "Employee List", to: "/dashboard/employees" },
-        { name: "Profile", to: "/dashboard/profile" },
+        { name: "Profile", to: "/dashboard/HRprofile" },
     ];
 
     const roleLinks = role === "employee" ? employeeLinks : role === "hr" ? hrLinks : [];
