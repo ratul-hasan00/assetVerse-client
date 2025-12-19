@@ -105,7 +105,7 @@ const AllRequests = () => {
                                         </span>
                                     </td>
                                     <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-gray-600">
-                                        {request.requesterName}<br/>
+                                        {request.requesterName}<br />
                                         <span className="text-xs text-gray-400">{request.requesterEmail}</span>
                                     </td>
                                     <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-gray-600">
@@ -115,38 +115,44 @@ const AllRequests = () => {
                                         {request.assetType}
                                     </td>
                                     <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                                        <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                                            request.requestStatus === "pending"
+                                        <span className={`px-2 py-1 text-xs font-semibold rounded-full ${request.requestStatus === "pending"
                                                 ? "bg-yellow-100 text-yellow-800"
                                                 : request.requestStatus === "approved"
-                                                ? "bg-green-100 text-green-800"
-                                                : "bg-red-100 text-red-800"
-                                        }`}>
+                                                    ? "bg-green-100 text-green-800"
+                                                    : "bg-red-100 text-red-800"
+                                            }`}>
                                             {request.requestStatus.toUpperCase()}
                                         </span>
                                     </td>
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap flex justify-center gap-2">
-                                        {request.requestStatus === "pending" ? (
-                                            <>
-                                                <button
-                                                    className="py-1 px-3 bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 text-white rounded-lg text-sm font-medium hover:scale-105 transition transform"
-                                                    onClick={() => handleAction(request._id, "approved")}
-                                                >
-                                                    Approve
-                                                </button>
-                                                <button
-                                                    className="py-1 px-3 bg-red-500 text-white rounded-lg text-sm font-medium hover:scale-105 transition transform"
-                                                    onClick={() => handleAction(request._id, "rejected")}
-                                                >
-                                                    Reject
-                                                </button>
-                                            </>
-                                        ) : (
-                                            <span className="text-sm text-gray-500 italic">
-                                                No actions
-                                            </span>
-                                        )}
+                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                                        <div className="flex justify-center gap-2">
+                                            {request.requestStatus === "pending" ? (
+                                                <>
+                                                    <button
+                                                        className="py-1 px-3 bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 
+                               text-white rounded-lg text-sm font-medium 
+                               hover:scale-105 transition-transform"
+                                                        onClick={() => handleAction(request._id, "approved")}
+                                                    >
+                                                        Approve
+                                                    </button>
+
+                                                    <button
+                                                        className="py-1 px-3 bg-red-500 text-white rounded-lg text-sm font-medium 
+                               hover:scale-105 transition-transform"
+                                                        onClick={() => handleAction(request._id, "rejected")}
+                                                    >
+                                                        Reject
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <span className="text-sm text-gray-500 italic">
+                                                    No actions
+                                                </span>
+                                            )}
+                                        </div>
                                     </td>
+
                                 </tr>
                             ))}
                         </tbody>

@@ -1,7 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import Root from './Root/Root.jsx';
@@ -11,15 +10,17 @@ import JoinEmployee from './JoinEmployee.jsx';
 import JoinHr from './JoinHr.jsx';
 import AuthProvider from './Context/AuthProvider.jsx';
 import ErrorPage from './ErrorPage.jsx';
-import MyAssets from './Dashboard/EmployeeDashoard/MyAsset.jsx';
 import RequestAsset from './Dashboard/EmployeeDashoard/RequestAsset.jsx';
 import MyTeam from './Dashboard/EmployeeDashoard/MyTeam.jsx';
-import EmployeeProfile from './Dashboard/EmployeeDashoard/EmployeeProfile.jsx';
 import Asset from './Dashboard/HRdashboard/Asset.jsx';
-import AddAsset from './Dashboard/HRdashboard/AddAsset.jsx';
 import Request from './Dashboard/HRdashboard/AllRequests.jsx';
 import Employees from './Dashboard/HRdashboard/Employees.jsx';
 import HRprofile from './Dashboard/HRdashboard/HRprofile.jsx';
+import MyAssets from './Dashboard/EmployeeDashoard/MyAssets.jsx';
+import EmployeeProfile from './Dashboard/EmployeeDashoard/EmployeeProfile.jsx';
+import AddAsset from './Dashboard/HRdashboard/AddAsset.jsx';
+import EmployeeEditProfile from './Dashboard/EmployeeDashoard/EmployeeEditProfile.jsx';
+
 
 
 const router = createBrowserRouter([
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: '/dashboard/employeeProfile',
         element: <EmployeeProfile></EmployeeProfile>
+      },
+      {
+        path: '/employeeEditProfile',
+        element: <EmployeeEditProfile></EmployeeEditProfile>
       },
       {
         path: '/dashboard/assets',
