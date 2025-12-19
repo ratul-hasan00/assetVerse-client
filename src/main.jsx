@@ -69,7 +69,7 @@ const router = createBrowserRouter([
         element: <EmployeeEditProfile></EmployeeEditProfile>
       },
       {
-        path: '/dashboard/assets',
+        path: '/dashboard/asset',
         element: <Asset></Asset>
       },
       {

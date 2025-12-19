@@ -24,7 +24,7 @@ const Navbar = () => {
     ];
 
     const hrLinks = [
-        { name: "Asset List", to: "/dashboard/assets" },
+        { name: "Asset List", to: "/dashboard/asset" },
         { name: "Add Asset", to: "/dashboard/add-asset" },
         { name: "All Requests", to: "/dashboard/Allrequests" },
         { name: "Employee List", to: "/dashboard/employees" },
