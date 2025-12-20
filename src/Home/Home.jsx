@@ -9,6 +9,8 @@ import {
     Package,
     Workflow,
 } from "lucide-react";
+import RobotLoader from "../RobotLoader/RobotLoader";
+import "../RobotLoader/RobotLoader.css";
 
 const Home = () => {
     const [packages, setPackages] = useState([]);
@@ -110,7 +112,7 @@ const Home = () => {
                     </h2>
 
                     {packages.length === 0 ? (
-                        <p>Loading packages...</p>
+                        <RobotLoader></RobotLoader>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             {packages.map((pkg, idx) => (
