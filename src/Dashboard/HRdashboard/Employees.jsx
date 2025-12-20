@@ -3,6 +3,8 @@ import axios from "axios";
 import { Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthContext";
+import RobotLoader from "../../RobotLoader/RobotLoader";
+import "../../RobotLoader/RobotLoader.css";
 
 const Employees = () => {
   const { profile, loading } = useContext(AuthContext); // HR profile
@@ -67,7 +69,7 @@ const Employees = () => {
     }
   };
 
-  if (loading) return null;
+  if (loading) return <RobotLoader></RobotLoader>;
 
   return (
     <div className="p-4 md:p-6">
@@ -83,7 +85,7 @@ const Employees = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {dataLoading ? (
           <div className="col-span-full p-10 text-center font-semibold">
-            Loading employees...
+            <RobotLoader></RobotLoader>
           </div>
         ) : employees.length === 0 ? (
           <div className="col-span-full p-10 text-center text-gray-500">

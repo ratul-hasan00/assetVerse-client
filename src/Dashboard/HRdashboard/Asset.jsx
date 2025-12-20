@@ -3,6 +3,9 @@ import axios from "axios";
 import { Pencil, Trash2, Boxes, Check } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthContext";
+import RobotLoader from "../../RobotLoader/RobotLoader";
+import "../../RobotLoader/RobotLoader.css";
+
 
 const Asset = () => {
   const { user, loading } = useContext(AuthContext);
@@ -73,7 +76,7 @@ const Asset = () => {
   );
 
   const totalPages = Math.ceil(total / limit);
-  if (loading) return null;
+  if (loading) return <RobotLoader></RobotLoader>;
 
   return (
     <div className="p-4 md:p-6">
@@ -99,7 +102,7 @@ const Asset = () => {
       {/* Table */}
       <div className="overflow-x-auto bg-white rounded-2xl shadow-md border-2 border-cyan-400/30 hover:shadow-cyan-400/50 transition-shadow duration-300">
         {dataLoading ? (
-          <div className="p-10 text-center font-semibold">Loading assets...</div>
+          <div className="p-10 text-center font-semibold"><RobotLoader></RobotLoader></div>
         ) : filteredAssets.length === 0 ? (
           <div className="p-10 text-center text-gray-500">No assets found</div>
         ) : (

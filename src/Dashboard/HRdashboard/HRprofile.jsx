@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
+import RobotLoader from "../../RobotLoader/RobotLoader";
+import "../../RobotLoader/RobotLoader.css";
 
 const HRprofile = () => {
   const { profile, loading } = useContext(AuthContext);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <RobotLoader></RobotLoader>;
 
   // Ensure profileImage has a valid fallback
   const profilePhoto = profile?.profileImage?.trim() 

@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthContext";
+import RobotLoader from "../../RobotLoader/RobotLoader";
+import "../../RobotLoader/RobotLoader.css";
 
 const AllRequests = () => {
     const { user } = useContext(AuthContext);
@@ -10,6 +12,8 @@ const AllRequests = () => {
 
     // Fetch all requests for this HR
     useEffect(() => {
+        if (!user?.email) return; // ✅ Safety check
+
         axios
             .get(`http://localhost:3000/requests?hrEmail=${user.email}`)
             .then((res) => {
@@ -21,7 +25,7 @@ const AllRequests = () => {
                 toast.error("Failed to fetch requests");
                 setLoading(false);
             });
-    }, [user.email]);
+    }, [user]); // ✅ Only depend on `user`
 
     // Approve or Reject request
     const handleAction = async (id, action) => {
@@ -44,8 +48,13 @@ const AllRequests = () => {
         }
     };
 
+    // 🔴 Show simple loading while fetching requests
     if (loading) {
-        return <div className="text-center py-10">Loading requests...</div>;
+        return <RobotLoader></RobotLoader>;
+    }
+
+    if (!user) {
+        return null;
     }
 
     return (
@@ -116,10 +125,10 @@ const AllRequests = () => {
                                     </td>
                                     <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${request.requestStatus === "pending"
-                                                ? "bg-yellow-100 text-yellow-800"
-                                                : request.requestStatus === "approved"
-                                                    ? "bg-green-100 text-green-800"
-                                                    : "bg-red-100 text-red-800"
+                                            ? "bg-yellow-100 text-yellow-800"
+                                            : request.requestStatus === "approved"
+                                                ? "bg-green-100 text-green-800"
+                                                : "bg-red-100 text-red-800"
                                             }`}>
                                             {request.requestStatus.toUpperCase()}
                                         </span>
@@ -164,17 +173,3 @@ const AllRequests = () => {
 };
 
 export default AllRequests;
-
-
-
-
-// HR adds assets
-// ↓
-// Employee sees assets
-// ↓
-// Employee requests asset
-// ↓
-// HR approves request
-// ↓
-// assignedAssets auto-created
-

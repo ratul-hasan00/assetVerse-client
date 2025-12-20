@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { UserRoundPen } from "lucide-react";
+import RobotLoader from "../../RobotLoader/RobotLoader";
+import "../../RobotLoader/RobotLoader.css";
 
 const EmployeeProfile = () => {
     const { user, loading } = useContext(AuthContext);
@@ -31,7 +33,7 @@ const EmployeeProfile = () => {
         fetchAffiliations();
     }, [user?.email]);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <RobotLoader></RobotLoader>;
 
     return (
         <div className="flex justify-center mt-8 pb-10">

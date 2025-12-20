@@ -20,6 +20,7 @@ import MyAssets from './Dashboard/EmployeeDashoard/MyAssets.jsx';
 import EmployeeProfile from './Dashboard/EmployeeDashoard/EmployeeProfile.jsx';
 import AddAsset from './Dashboard/HRdashboard/AddAsset.jsx';
 import EmployeeEditProfile from './Dashboard/EmployeeDashoard/EmployeeEditProfile.jsx';
+import PrivateRoute from './PrivateRoute.jsx';
 
 
 
@@ -50,43 +51,43 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard/my-assets',
-        element: <MyAssets></MyAssets>
+        element: <PrivateRoute><MyAssets></MyAssets></PrivateRoute>
       },
       {
         path: '/dashboard/request-asset',
-        element: <RequestAsset></RequestAsset>
+        element: <PrivateRoute><RequestAsset></RequestAsset></PrivateRoute>
       },
       {
         path: '/dashboard/my-team',
-        element: <MyTeam></MyTeam>
+        element: <PrivateRoute><MyTeam></MyTeam></PrivateRoute>
       },
       {
         path: '/dashboard/employeeProfile',
-        element: <EmployeeProfile></EmployeeProfile>
+        element: <PrivateRoute><EmployeeProfile></EmployeeProfile></PrivateRoute>
       },
       {
         path: '/employeeEditProfile',
-        element: <EmployeeEditProfile></EmployeeEditProfile>
+        element: <PrivateRoute><EmployeeEditProfile></EmployeeEditProfile></PrivateRoute>
       },
       {
         path: '/dashboard/asset',
-        element: <Asset></Asset>
+        element: <PrivateRoute><Asset></Asset></PrivateRoute>
       },
       {
         path: '/dashboard/add-asset',
-        element: <AddAsset></AddAsset>
+        element: <PrivateRoute><AddAsset></AddAsset></PrivateRoute>
       },
       {
         path: '/dashboard/Allrequests',
-        element: <Request></Request>
+        element: <PrivateRoute><Request></Request></PrivateRoute>
       },
       {
         path: '/dashboard/employees',
-        element: <Employees></Employees>
+        element: <PrivateRoute><Employees></Employees></PrivateRoute>
       },
       {
         path: '/dashboard/HRprofile',
-        element: <HRprofile></HRprofile>
+        element: <PrivateRoute><HRprofile></HRprofile></PrivateRoute>
       },
     ]
   }

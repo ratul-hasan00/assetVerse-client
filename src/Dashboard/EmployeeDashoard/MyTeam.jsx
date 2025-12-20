@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../Context/AuthContext";
 import toast from "react-hot-toast";
+import RobotLoader from "../../RobotLoader/RobotLoader";
+import "../../RobotLoader/RobotLoader.css";
 
 const MyTeam = () => {
     const { user } = useContext(AuthContext);
@@ -48,7 +50,7 @@ const MyTeam = () => {
     });
 
     if (loading) {
-        return <div className="text-center py-10 text-gray-600">Loading team...</div>;
+        return <RobotLoader></RobotLoader>;
     }
 
     return (

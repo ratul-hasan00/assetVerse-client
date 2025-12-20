@@ -3,6 +3,8 @@ import { AuthContext } from "../../Context/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import RobotLoader from "../../RobotLoader/RobotLoader";
+import "../../RobotLoader/RobotLoader.css";
 
 const EmployeeEditProfile = () => {
   const { user, profile, loading, refreshProfile } = useContext(AuthContext);
@@ -13,7 +15,7 @@ const EmployeeEditProfile = () => {
   const [displayName, setDisplayName] = useState(profile?.name || "");
   const [photoURL, setPhotoURL] = useState(profile?.profileImage || user?.photoURL || "");
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <RobotLoader></RobotLoader>;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
