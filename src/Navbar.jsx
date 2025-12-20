@@ -128,9 +128,6 @@ const Navbar = () => {
                                     <li>
                                         <NavLink to="/join-hr" className={navLinkClass}>Join as HR Manager</NavLink>
                                     </li>
-                                    <li>
-                                        <NavLink to="/login" className={navLinkClass}>Login</NavLink>
-                                    </li>
                                 </>
                             )}
 

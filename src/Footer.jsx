@@ -1,6 +1,6 @@
 import { Facebook, Linkedin, Twitter } from "lucide-react";
 import { Link } from "react-router";
-import LogoImage from "./assets/assetverse_logo.png"; // imported logo
+import LogoImage from "./assets/assetverse_logo.png";
 
 const Footer = () => {
     return (
@@ -43,7 +43,6 @@ const Footer = () => {
                         <Link to="/join-employee" className="hover:underline hover:text-gray-200 transition">Join as Employee</Link>
                         <Link to="/join-hr" className="hover:underline hover:text-gray-200 transition">Join as HR</Link>
                         <Link to="/dashboard/profile" className="hover:underline hover:text-gray-200 transition">Profile</Link>
-                        <Link to="/dashboard/assets" className="hover:underline hover:text-gray-200 transition">Assets</Link>
                     </div>
 
                     {/* Newsletter / Info */}
