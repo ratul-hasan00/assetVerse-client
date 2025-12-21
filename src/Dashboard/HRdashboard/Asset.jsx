@@ -119,48 +119,53 @@ const Asset = () => {
           </p>
         ) : (
           <ResponsiveContainer width="100%" height={340}>
-  <BarChart
-    data={chartData}
-    margin={{ top: 20, right: 30, left: 10, bottom: 10 }}
-  >
-    {/* Gradient Definition */}
-    <defs>
-      <linearGradient id="assetBarGradient" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#1d4ed8" />   {/* blue-700 */}
-        <stop offset="50%" stopColor="#7c3aed" />  {/* purple-600 */}
-        <stop offset="100%" stopColor="#ec4899" /> {/* pink-500 */}
-      </linearGradient>
-    </defs>
+            <BarChart
+              data={chartData}
+              layout="vertical" // Horizontal bars
+              margin={{ top: 20, right: 30, left: 80, bottom: 20 }}
+            >
+              {/* Gradient Definition */}
+              <defs>
+                <linearGradient id="assetBarGradient" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#1d4ed8" />   {/* blue-700 */}
+                  <stop offset="50%" stopColor="#7c3aed" />  {/* purple-600 */}
+                  <stop offset="100%" stopColor="#ec4899" /> {/* pink-500 */}
+                </linearGradient>
+              </defs>
 
-    <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.25} />
-    <XAxis
-      dataKey="name"
-      axisLine={false}
-      tickLine={false}
-      tick={{ fontSize: 12 }}
-    />
-    <YAxis
-      axisLine={false}
-      tickLine={false}
-      tick={{ fontSize: 12 }}
-      allowDecimals={false}
-    />
-    <Tooltip
-      cursor={{ fill: "rgba(0,0,0,0.05)" }}
-      contentStyle={{
-        borderRadius: "14px",
-        border: "none",
-        boxShadow: "0 15px 30px rgba(0,0,0,0.12)"
-      }}
-    />
-    <Bar
-      dataKey="total"
-      fill="url(#assetBarGradient)"
-      barSize={42}
-      name="Total Quantity"
-    />
-  </BarChart>
-</ResponsiveContainer>
+              <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.25} />
+              <XAxis
+                type="number" // numeric axis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 12 }}
+                allowDecimals={false}
+              />
+              <YAxis
+                dataKey="name"
+                type="category" // categories
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 12 }}
+              />
+              <Tooltip
+                cursor={{ fill: "rgba(0,0,0,0.05)" }}
+                contentStyle={{
+                  borderRadius: "14px",
+                  border: "none",
+                  boxShadow: "0 15px 30px rgba(0,0,0,0.12)"
+                }}
+              />
+              <Bar
+                dataKey="total"
+                fill="url(#assetBarGradient)"
+                barSize={36} // ✅ Increased bar size
+                name="Total Quantity"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+
+
 
         )}
       </div>
