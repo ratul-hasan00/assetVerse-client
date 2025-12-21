@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { PackagePlus, ImageIcon } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthContext";
+import { getAuth } from "firebase/auth"; // ✅ Import Firebase auth
 
 const AddAsset = () => {
     const { user } = useContext(AuthContext); // HR email reference
@@ -25,9 +26,22 @@ const AddAsset = () => {
         };
 
         try {
+            const auth = getAuth();
+            const currentUser = auth.currentUser;
+            if (!currentUser) {
+                toast.error("Please login first as HR");
+                setLoading(false);
+                return;
+            }
+
+            const token = await currentUser.getIdToken(); // ✅ Get Firebase token
+
             const res = await fetch("http://localhost:3000/assets", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}` // ✅ Send token in header
+                },
                 body: JSON.stringify(assetData)
             });
 
@@ -41,7 +55,7 @@ const AddAsset = () => {
             }
         } catch (error) {
             console.error(error);
-            toast.error("Server error");
+            toast.error("Server error. Check HR access.");
         } finally {
             setLoading(false);
         }
