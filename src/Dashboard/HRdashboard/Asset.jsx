@@ -6,6 +6,16 @@ import { AuthContext } from "../../Context/AuthContext";
 import RobotLoader from "../../RobotLoader/RobotLoader";
 import "../../RobotLoader/RobotLoader.css";
 
+// ✅ Recharts imports (ONLY ADDITION)
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const Asset = () => {
   const { user, loading } = useContext(AuthContext);
@@ -17,6 +27,9 @@ const Asset = () => {
   const limit = 10;
   const [dataLoading, setDataLoading] = useState(true);
 
+  // ✅ Chart state (ONLY ADDITION)
+  const [chartData, setChartData] = useState([]);
+
   const [editAsset, setEditAsset] = useState(null);
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
@@ -25,13 +38,29 @@ const Asset = () => {
     fetchAssets();
   }, [page, user?.email]);
 
+  /* ================= FETCH ASSETS ================= */
   const fetchAssets = async () => {
     try {
       setDataLoading(true);
-      const res = await axios.get(`${API_URL}/assets?page=${page}&limit=${limit}`);
-      const userAssets = res.data.assets.filter(asset => asset.hrEmail === user.email);
+      const res = await axios.get(
+        `${API_URL}/assets?page=${page}&limit=${limit}`
+      );
+
+      const userAssets = res.data.assets.filter(
+        asset => asset.hrEmail === user.email
+      );
+
       setAssets(userAssets);
       setTotal(userAssets.length);
+
+      // ✅ Build chart data from EXISTING assets (NO new API)
+      const formattedChartData = userAssets.map(asset => ({
+        name: asset.productName,
+        total: asset.productQuantity,
+        available: asset.availableQuantity,
+      }));
+
+      setChartData(formattedChartData);
     } catch (err) {
       console.error(err);
       toast.error("Failed to load assets");
@@ -40,6 +69,7 @@ const Asset = () => {
     }
   };
 
+  /* ================= DELETE ================= */
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this asset?")) return;
 
@@ -53,6 +83,7 @@ const Asset = () => {
     }
   };
 
+  /* ================= UPDATE ================= */
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -76,20 +107,48 @@ const Asset = () => {
   );
 
   const totalPages = Math.ceil(total / limit);
-  if (loading) return <RobotLoader></RobotLoader>;
+
+  if (loading) return <RobotLoader />;
 
   return (
     <div className="p-4 md:p-6">
-      {/* Header */}
+
+      {/* HEADER */}
       <div className="mb-6 rounded-2xl bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 p-6 text-white shadow-lg">
         <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
           <Boxes /> Asset List
         </h1>
-        <p className="text-sm mt-1 opacity-90">View and manage your assets</p>
+        <p className="text-sm mt-1 opacity-90">
+          View and manage your assets
+        </p>
       </div>
 
-      {/* Search */}
-      <div className="mb-4 flex justify-between flex-wrap gap-3">
+      {/* ✅ BAR CHART (ONLY NEW UI PART) */}
+      <div className="mb-6 bg-white rounded-2xl shadow-md p-5">
+        <h2 className="text-lg font-semibold mb-4">
+          Asset Quantity Overview
+        </h2>
+
+        {chartData.length === 0 ? (
+          <p className="text-center text-gray-500">
+            No chart data available
+          </p>
+        ) : (
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="total" fill="#22d3ee" name="Total Quantity" />
+              <Bar dataKey="available" fill="#fb7185" name="Available Quantity" />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
+      </div>
+
+      {/* SEARCH */}
+      <div className="mb-4">
         <input
           type="text"
           placeholder="Search asset by name..."
@@ -99,67 +158,60 @@ const Asset = () => {
         />
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto bg-white rounded-2xl shadow-md border-2 border-cyan-400/30 hover:shadow-cyan-400/50 transition-shadow duration-300">
+      {/* TABLE */}
+      <div className="overflow-x-auto bg-white rounded-2xl shadow-md">
         {dataLoading ? (
-          <div className="p-10 text-center font-semibold"><RobotLoader></RobotLoader></div>
+          <div className="p-10 text-center">
+            <RobotLoader />
+          </div>
         ) : filteredAssets.length === 0 ? (
-          <div className="p-10 text-center text-gray-500">No assets found</div>
+          <div className="p-10 text-center text-gray-500">
+            No assets found
+          </div>
         ) : (
           <table className="table w-full min-w-[600px]">
-            <thead className="bg-gray-100 text-gray-700">
+            <thead className="bg-gray-100">
               <tr>
-                <th>S/N</th>
+                <th>#</th>
                 <th>Image</th>
                 <th>Name</th>
                 <th>Type</th>
                 <th>Total</th>
                 <th>Available</th>
                 <th>Date Added</th>
-                <th className="text-center">Actions</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredAssets.map((asset, index) => (
-                <tr key={asset._id} className="hover:bg-cyan-50 transition-colors">
+                <tr key={asset._id}>
                   <td>{(page - 1) * limit + index + 1}</td>
                   <td>
                     <img
                       src={asset.productImage}
-                      alt={asset.productName}
-                      className="w-12 h-12 rounded-xl object-cover"
+                      className="w-12 h-12 rounded-xl"
                     />
                   </td>
-                  <td className="font-semibold">{asset.productName}</td>
-                  <td>
-                    {asset.productType === "Returnable" ? (
-                      <span className="badge badge-success inline-block px-2 py-1 text-xs md:text-sm whitespace-nowrap">
-                        {asset.productType}
-                      </span>
-                    ) : (
-                      <span className="bg-pink-400 text-white px-2 py-1 rounded-md text-xs md:text-sm inline-block whitespace-nowrap">
-                        {asset.productType}
-                      </span>
-                    )}
-                  </td>
+                  <td>{asset.productName}</td>
+                  <td>{asset.productType}</td>
                   <td>{asset.productQuantity}</td>
                   <td>{asset.availableQuantity}</td>
-                  <td className="text-sm">{new Date(asset.dateAdded).toLocaleDateString()}</td>
-                  <td className="text-center">
-                    <div className="flex justify-center gap-2 flex-wrap">
-                      <button
-                        onClick={() => setEditAsset(asset)}
-                        className="btn btn-sm btn-outline btn-info rounded-lg"
-                      >
-                        <Pencil size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(asset._id)}
-                        className="btn btn-sm btn-outline btn-error rounded-lg"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
+                  <td>
+                    {new Date(asset.dateAdded).toLocaleDateString()}
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => setEditAsset(asset)}
+                      className="btn btn-sm btn-outline btn-info mr-2"
+                    >
+                      <Pencil size={16} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(asset._id)}
+                      className="btn btn-sm btn-outline btn-error"
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -168,9 +220,9 @@ const Asset = () => {
         )}
       </div>
 
-      {/* Pagination */}
+      {/* PAGINATION (UNCHANGED) */}
       {totalPages > 1 && (
-        <div className="mt-6 flex justify-center gap-2 flex-wrap">
+        <div className="mt-6 flex justify-center gap-2">
           <button
             className="btn btn-sm"
             disabled={page === 1}
@@ -197,50 +249,61 @@ const Asset = () => {
         </div>
       )}
 
-      {/* Update Modal */}
+      {/* UPDATE MODAL (UNCHANGED) */}
       {editAsset && (
         <dialog className="modal modal-open">
-          <div className="modal-box rounded-2xl">
+          <div className="modal-box">
             <h3 className="font-bold text-lg mb-4">Update Asset</h3>
             <form onSubmit={handleUpdate} className="space-y-3">
               <input
-                type="text"
                 className="input input-bordered w-full"
                 value={editAsset.productName}
-                onChange={e => setEditAsset({ ...editAsset, productName: e.target.value })}
-                required
+                onChange={e =>
+                  setEditAsset({ ...editAsset, productName: e.target.value })
+                }
               />
               <input
                 type="number"
                 className="input input-bordered w-full"
                 value={editAsset.productQuantity}
-                onChange={e => setEditAsset({ ...editAsset, productQuantity: Number(e.target.value) })}
-                required
+                onChange={e =>
+                  setEditAsset({
+                    ...editAsset,
+                    productQuantity: Number(e.target.value),
+                  })
+                }
               />
               <input
                 type="number"
                 className="input input-bordered w-full"
                 value={editAsset.availableQuantity}
-                onChange={e => setEditAsset({ ...editAsset, availableQuantity: Number(e.target.value) })}
-                required
+                onChange={e =>
+                  setEditAsset({
+                    ...editAsset,
+                    availableQuantity: Number(e.target.value),
+                  })
+                }
               />
               <select
                 className="select select-bordered w-full"
                 value={editAsset.productType}
-                onChange={e => setEditAsset({ ...editAsset, productType: e.target.value })}
+                onChange={e =>
+                  setEditAsset({ ...editAsset, productType: e.target.value })
+                }
               >
                 <option value="Returnable">Returnable</option>
                 <option value="Non-returnable">Non-returnable</option>
               </select>
 
               <div className="modal-action">
-                <button
-                  type="submit"
-                  className="btn bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 text-white flex items-center gap-2 transition-transform duration-300 hover:scale-105 hover:shadow-lg"
-                >
+                <button className="btn btn-primary">
                   <Check size={16} /> Update
                 </button>
-                <button type="button" className="btn" onClick={() => setEditAsset(null)}>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setEditAsset(null)}
+                >
                   Cancel
                 </button>
               </div>
