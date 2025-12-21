@@ -6,7 +6,6 @@ import { AuthContext } from "../../Context/AuthContext";
 import RobotLoader from "../../RobotLoader/RobotLoader";
 import "../../RobotLoader/RobotLoader.css";
 
-// ✅ Recharts imports (ONLY ADDITION)
 import {
   BarChart,
   Bar,
@@ -14,7 +13,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
+  ResponsiveContainer
 } from "recharts";
 
 const Asset = () => {
@@ -22,45 +21,25 @@ const Asset = () => {
 
   const [assets, setAssets] = useState([]);
   const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
-  const limit = 10;
+  const [editAsset, setEditAsset] = useState(null);
   const [dataLoading, setDataLoading] = useState(true);
 
-  // ✅ Chart state (ONLY ADDITION)
-  const [chartData, setChartData] = useState([]);
-
-  const [editAsset, setEditAsset] = useState(null);
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
+  /* ================= FETCH ASSETS ================= */
   useEffect(() => {
     if (!user?.email) return;
     fetchAssets();
-  }, [page, user?.email]);
+  }, [user?.email]);
 
-  /* ================= FETCH ASSETS ================= */
   const fetchAssets = async () => {
     try {
       setDataLoading(true);
-      const res = await axios.get(
-        `${API_URL}/assets?page=${page}&limit=${limit}`
-      );
-
-      const userAssets = res.data.assets.filter(
+      const res = await axios.get(`${API_URL}/assets`);
+      const hrAssets = res.data.assets.filter(
         asset => asset.hrEmail === user.email
       );
-
-      setAssets(userAssets);
-      setTotal(userAssets.length);
-
-      // ✅ Build chart data from EXISTING assets (NO new API)
-      const formattedChartData = userAssets.map(asset => ({
-        name: asset.productName,
-        total: asset.productQuantity,
-        available: asset.availableQuantity,
-      }));
-
-      setChartData(formattedChartData);
+      setAssets(hrAssets);
     } catch (err) {
       console.error(err);
       toast.error("Failed to load assets");
@@ -102,18 +81,23 @@ const Asset = () => {
     }
   };
 
+  /* ================= SEARCH ================= */
   const filteredAssets = assets.filter(asset =>
     asset.productName.toLowerCase().includes(search.toLowerCase())
   );
 
-  const totalPages = Math.ceil(total / limit);
+  /* ================= CHART DATA ================= */
+  const chartData = assets.map(asset => ({
+    name: asset.productName,
+    total: asset.productQuantity
+  }));
 
   if (loading) return <RobotLoader />;
 
   return (
     <div className="p-4 md:p-6">
 
-      {/* HEADER */}
+      {/* ================= HEADER ================= */}
       <div className="mb-6 rounded-2xl bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 p-6 text-white shadow-lg">
         <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
           <Boxes /> Asset List
@@ -123,31 +107,65 @@ const Asset = () => {
         </p>
       </div>
 
-      {/* ✅ BAR CHART (ONLY NEW UI PART) */}
-      <div className="mb-6 bg-white rounded-2xl shadow-md p-5">
-        <h2 className="text-lg font-semibold mb-4">
+      {/* ================= BAR CHART ================= */}
+      <div className="mb-6 rounded-2xl bg-white shadow-lg border border-cyan-400/30 p-6">
+        <h2 className="text-lg font-semibold mb-4 text-gray-700">
           Asset Quantity Overview
         </h2>
 
         {chartData.length === 0 ? (
           <p className="text-center text-gray-500">
-            No chart data available
+            No asset data available
           </p>
         ) : (
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="total" fill="#22d3ee" name="Total Quantity" />
-              <Bar dataKey="available" fill="#fb7185" name="Available Quantity" />
-            </BarChart>
-          </ResponsiveContainer>
+          <ResponsiveContainer width="100%" height={340}>
+  <BarChart
+    data={chartData}
+    margin={{ top: 20, right: 30, left: 10, bottom: 10 }}
+  >
+    {/* Gradient Definition */}
+    <defs>
+      <linearGradient id="assetBarGradient" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#1d4ed8" />   {/* blue-700 */}
+        <stop offset="50%" stopColor="#7c3aed" />  {/* purple-600 */}
+        <stop offset="100%" stopColor="#ec4899" /> {/* pink-500 */}
+      </linearGradient>
+    </defs>
+
+    <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.25} />
+    <XAxis
+      dataKey="name"
+      axisLine={false}
+      tickLine={false}
+      tick={{ fontSize: 12 }}
+    />
+    <YAxis
+      axisLine={false}
+      tickLine={false}
+      tick={{ fontSize: 12 }}
+      allowDecimals={false}
+    />
+    <Tooltip
+      cursor={{ fill: "rgba(0,0,0,0.05)" }}
+      contentStyle={{
+        borderRadius: "14px",
+        border: "none",
+        boxShadow: "0 15px 30px rgba(0,0,0,0.12)"
+      }}
+    />
+    <Bar
+      dataKey="total"
+      fill="url(#assetBarGradient)"
+      barSize={42}
+      name="Total Quantity"
+    />
+  </BarChart>
+</ResponsiveContainer>
+
         )}
       </div>
 
-      {/* SEARCH */}
+      {/* ================= SEARCH ================= */}
       <div className="mb-4">
         <input
           type="text"
@@ -158,8 +176,8 @@ const Asset = () => {
         />
       </div>
 
-      {/* TABLE */}
-      <div className="overflow-x-auto bg-white rounded-2xl shadow-md">
+      {/* ================= TABLE ================= */}
+      <div className="overflow-x-auto bg-white rounded-2xl shadow-md border-2 border-cyan-400/30">
         {dataLoading ? (
           <div className="p-10 text-center">
             <RobotLoader />
@@ -170,48 +188,62 @@ const Asset = () => {
           </div>
         ) : (
           <table className="table w-full min-w-[600px]">
-            <thead className="bg-gray-100">
+            <thead className="bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 text-white">
               <tr>
-                <th>#</th>
+                <th>S/N</th>
                 <th>Image</th>
                 <th>Name</th>
                 <th>Type</th>
                 <th>Total</th>
                 <th>Available</th>
                 <th>Date Added</th>
-                <th>Actions</th>
+                <th className="text-center">Actions</th>
               </tr>
             </thead>
+
             <tbody>
               {filteredAssets.map((asset, index) => (
-                <tr key={asset._id}>
-                  <td>{(page - 1) * limit + index + 1}</td>
+                <tr key={asset._id} className="hover:bg-cyan-50 transition-colors">
+                  <td>{index + 1}</td>
                   <td>
                     <img
                       src={asset.productImage}
-                      className="w-12 h-12 rounded-xl"
+                      alt={asset.productName}
+                      className="w-12 h-12 rounded-xl object-cover"
                     />
                   </td>
-                  <td>{asset.productName}</td>
-                  <td>{asset.productType}</td>
+                  <td className="font-semibold">{asset.productName}</td>
+                  <td>
+                    {asset.productType === "Returnable" ? (
+                      <span className="badge badge-success">
+                        {asset.productType}
+                      </span>
+                    ) : (
+                      <span className="bg-pink-400 text-white px-2 py-1 rounded-md text-sm">
+                        {asset.productType}
+                      </span>
+                    )}
+                  </td>
                   <td>{asset.productQuantity}</td>
                   <td>{asset.availableQuantity}</td>
-                  <td>
+                  <td className="text-sm">
                     {new Date(asset.dateAdded).toLocaleDateString()}
                   </td>
-                  <td>
-                    <button
-                      onClick={() => setEditAsset(asset)}
-                      className="btn btn-sm btn-outline btn-info mr-2"
-                    >
-                      <Pencil size={16} />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(asset._id)}
-                      className="btn btn-sm btn-outline btn-error"
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                  <td className="text-center">
+                    <div className="flex justify-center gap-2">
+                      <button
+                        onClick={() => setEditAsset(asset)}
+                        className="btn btn-sm btn-outline btn-info"
+                      >
+                        <Pencil size={16} />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(asset._id)}
+                        className="btn btn-sm btn-outline btn-error"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -220,74 +252,52 @@ const Asset = () => {
         )}
       </div>
 
-      {/* PAGINATION (UNCHANGED) */}
-      {totalPages > 1 && (
-        <div className="mt-6 flex justify-center gap-2">
-          <button
-            className="btn btn-sm"
-            disabled={page === 1}
-            onClick={() => setPage(page - 1)}
-          >
-            Prev
-          </button>
-          {[...Array(totalPages).keys()].map(num => (
-            <button
-              key={num}
-              className={`btn btn-sm ${page === num + 1 ? "btn-primary" : ""}`}
-              onClick={() => setPage(num + 1)}
-            >
-              {num + 1}
-            </button>
-          ))}
-          <button
-            className="btn btn-sm"
-            disabled={page === totalPages}
-            onClick={() => setPage(page + 1)}
-          >
-            Next
-          </button>
-        </div>
-      )}
-
-      {/* UPDATE MODAL (UNCHANGED) */}
+      {/* ================= UPDATE MODAL ================= */}
       {editAsset && (
         <dialog className="modal modal-open">
-          <div className="modal-box">
+          <div className="modal-box rounded-2xl">
             <h3 className="font-bold text-lg mb-4">Update Asset</h3>
+
             <form onSubmit={handleUpdate} className="space-y-3">
               <input
                 className="input input-bordered w-full"
                 value={editAsset.productName}
-                onChange={e =>
+                onChange={(e) =>
                   setEditAsset({ ...editAsset, productName: e.target.value })
                 }
+                required
               />
+
               <input
                 type="number"
                 className="input input-bordered w-full"
                 value={editAsset.productQuantity}
-                onChange={e =>
+                onChange={(e) =>
                   setEditAsset({
                     ...editAsset,
-                    productQuantity: Number(e.target.value),
+                    productQuantity: Number(e.target.value)
                   })
                 }
+                required
               />
+
               <input
                 type="number"
                 className="input input-bordered w-full"
                 value={editAsset.availableQuantity}
-                onChange={e =>
+                onChange={(e) =>
                   setEditAsset({
                     ...editAsset,
-                    availableQuantity: Number(e.target.value),
+                    availableQuantity: Number(e.target.value)
                   })
                 }
+                required
               />
+
               <select
                 className="select select-bordered w-full"
                 value={editAsset.productType}
-                onChange={e =>
+                onChange={(e) =>
                   setEditAsset({ ...editAsset, productType: e.target.value })
                 }
               >
@@ -296,7 +306,7 @@ const Asset = () => {
               </select>
 
               <div className="modal-action">
-                <button className="btn btn-primary">
+                <button className="btn bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 text-white flex items-center gap-2">
                   <Check size={16} /> Update
                 </button>
                 <button
