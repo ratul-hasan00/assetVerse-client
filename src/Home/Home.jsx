@@ -34,43 +34,72 @@ const Home = () => {
             {/* ================= HERO SECTION ================= */}
             <section className="bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 text-white">
                 <div className="max-w-7xl mx-auto px-6 py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+                    {/* Text Content */}
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 1 }} // slower animation
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                            hidden: {},
+                            visible: {
+                                transition: { staggerChildren: 0.15 } // smooth stagger
+                            },
+                        }}
                         className="space-y-6"
                     >
-                        <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
+                        <motion.h1
+                            variants={{
+                                hidden: { opacity: 0, y: -10 },
+                                visible: { opacity: 1, y: 0 },
+                            }}
+                            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                            className="text-4xl md:text-5xl font-extrabold leading-tight"
+                        >
                             Manage Company Assets <br />
-                            <span className="text-yellow-300">
-                                Smartly & Securely
-                            </span>
-                        </h1>
-                        <p className="text-lg text-white/90">
-                            AssetVerse helps organizations track, assign, and
-                            manage assets efficiently while improving
-                            accountability across teams.
-                        </p>
-                        <div className="flex flex-wrap gap-4">
+                            <span className="text-yellow-300">Smartly & Securely</span>
+                        </motion.h1>
+
+                        <motion.p
+                            variants={{
+                                hidden: { opacity: 0, y: -10 },
+                                visible: { opacity: 1, y: 0 },
+                            }}
+                            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                            className="text-lg text-white/90"
+                        >
+                            AssetVerse helps organizations track, assign, and manage assets efficiently while improving accountability across teams.
+                        </motion.p>
+
+                        <motion.div
+                            variants={{
+                                hidden: { opacity: 0, y: 5 },
+                                visible: { opacity: 1, y: 0 },
+                            }}
+                            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                            className="flex flex-wrap gap-4"
+                        >
                             <button className="btn bg-white text-pink-500 font-bold px-6 hover:scale-105 transition transform">
                                 Get Started
                             </button>
                             <button className="btn border border-white text-orange-400 font-bold px-6 hover:scale-105 transition transform">
                                 Learn More
                             </button>
-                        </div>
+                        </motion.div>
                     </motion.div>
 
+                    {/* Image */}
                     <motion.img
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }} // slower
+                        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ type: "spring", stiffness: 90, damping: 18, delay: 0.3 }}
                         src="https://images.unsplash.com/photo-1556761175-4b46a572b786"
                         alt="Corporate Management"
-                        className="rounded-2xl shadow-2xl"
+                        className="rounded-2xl shadow-2xl w-full"
                     />
+
                 </div>
             </section>
+
 
             {/* ================= ABOUT SECTION ================= */}
             <section className="py-20 bg-gradient-to-r from-cyan-50 via-orange-50 to-pink-50">
