@@ -12,7 +12,7 @@ const AllRequests = () => {
 
     // Fetch all requests for this HR
     useEffect(() => {
-        if (!user?.email) return; // ✅ Safety check
+        if (!user?.email) return;
 
         axios
             .get(`http://localhost:3000/requests?hrEmail=${user.email}`)
@@ -25,7 +25,7 @@ const AllRequests = () => {
                 toast.error("Failed to fetch requests");
                 setLoading(false);
             });
-    }, [user]); // ✅ Only depend on `user`
+    }, [user]);
 
     // Approve or Reject request
     const handleAction = async (id, action) => {
@@ -48,14 +48,8 @@ const AllRequests = () => {
         }
     };
 
-    // 🔴 Show simple loading while fetching requests
-    if (loading) {
-        return <RobotLoader></RobotLoader>;
-    }
-
-    if (!user) {
-        return null;
-    }
+    if (loading) return <RobotLoader />;
+    if (!user) return null;
 
     return (
         <div className="p-4 sm:p-6 lg:p-8">
@@ -74,34 +68,40 @@ const AllRequests = () => {
                     </p>
                 </div>
             ) : (
-                <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white rounded-2xl shadow-lg divide-y divide-gray-200">
-                        <thead className="bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 ">
+                <div className="overflow-x-auto relative">
+                    <table className="min-w-full bg-white shadow-lg divide-y divide-gray-200 border-2 border-cyan-400/50 rounded-2xl hover:shadow-cyan-400/50 transition-shadow">
+                        <thead className="bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500">
                             <tr>
-                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                <th className="px-3 sm:px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                    S/N
+                                </th>
+                                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                     Asset
                                 </th>
-                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                     Employee
                                 </th>
-                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                     Company
                                 </th>
-                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                     Type
                                 </th>
-                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                     Status
                                 </th>
-                                <th className="px-4 sm:px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
+                                <th className="px-3 sm:px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider">
                                     Action
                                 </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                            {requests.map((request) => (
+                            {requests.map((request, index) => (
                                 <tr key={request._id} className="hover:bg-gray-50 transition">
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap flex items-center justify-center sm:justify-start gap-3">
+                                    <td className="px-3 sm:px-4 py-4 whitespace-nowrap text-gray-700 font-medium text-center">
+                                        {index + 1}
+                                    </td>
+                                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap flex items-center justify-center sm:justify-start gap-3">
                                         <div className="flex-shrink-0 flex items-center justify-center w-14 h-14 bg-gray-100 rounded-lg overflow-hidden">
                                             <img
                                                 src={request.assetImage || request.productImage || "https://via.placeholder.com/150"}
@@ -113,17 +113,17 @@ const AllRequests = () => {
                                             {request.assetName}
                                         </span>
                                     </td>
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-gray-600">
+                                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-gray-600">
                                         {request.requesterName}<br />
                                         <span className="text-xs text-gray-400">{request.requesterEmail}</span>
                                     </td>
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-gray-600">
+                                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-gray-600">
                                         {request.companyName}
                                     </td>
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-gray-600">
+                                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-gray-600">
                                         {request.assetType}
                                     </td>
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
                                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${request.requestStatus === "pending"
                                             ? "bg-yellow-100 text-yellow-800"
                                             : request.requestStatus === "approved"
@@ -133,14 +133,14 @@ const AllRequests = () => {
                                             {request.requestStatus.toUpperCase()}
                                         </span>
                                     </td>
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                                        <div className="flex justify-center gap-2">
+                                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                                        <div className="flex justify-center gap-2 flex-wrap">
                                             {request.requestStatus === "pending" ? (
                                                 <>
                                                     <button
                                                         className="py-1 px-3 bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 
-                               text-white rounded-lg text-sm font-medium 
-                               hover:scale-105 transition-transform"
+                                                       text-white rounded-lg text-sm font-medium 
+                                                       hover:scale-105 transition-transform"
                                                         onClick={() => handleAction(request._id, "approved")}
                                                     >
                                                         Approve
@@ -148,7 +148,7 @@ const AllRequests = () => {
 
                                                     <button
                                                         className="py-1 px-3 bg-red-500 text-white rounded-lg text-sm font-medium 
-                               hover:scale-105 transition-transform"
+                                                       hover:scale-105 transition-transform"
                                                         onClick={() => handleAction(request._id, "rejected")}
                                                     >
                                                         Reject
@@ -161,7 +161,6 @@ const AllRequests = () => {
                                             )}
                                         </div>
                                     </td>
-
                                 </tr>
                             ))}
                         </tbody>
