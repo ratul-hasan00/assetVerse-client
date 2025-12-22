@@ -11,7 +11,7 @@ const Navbar = () => {
 
     const navLinkClass = ({ isActive }) =>
         `px-4 py-2 rounded-lg text-sm font-medium transition
-    ${isActive
+        ${isActive
             ? "bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 text-white"
             : "text-slate-700 hover:text-white hover:bg-gradient-to-r hover:from-cyan-400 hover:via-orange-400 hover:to-pink-500"
         }`;
@@ -28,13 +28,12 @@ const Navbar = () => {
         { name: "Add Asset", to: "/dashboard/add-asset" },
         { name: "All Requests", to: "/dashboard/Allrequests" },
         { name: "Employee List", to: "/dashboard/employees" },
-        { name: "Upgarde Package", to: "/dashboard/upgrade" },
+        { name: "Upgrade Package", to: "/dashboard/upgrade" },
         { name: "Profile", to: "/dashboard/HRprofile" },
     ];
 
     const roleLinks = role === "employee" ? employeeLinks : role === "hr" ? hrLinks : [];
 
-    // Handle logout with toast
     const handleLogout = async () => {
         await logOut();
         toast.success("Logged out successfully!");
@@ -71,7 +70,7 @@ const Navbar = () => {
                         )}
 
                         {user && (
-                            <li className="dropdown">
+                            <li className="dropdown dropdown-hover">
                                 <label tabIndex={0} className="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 cursor-pointer hover:text-white hover:bg-gradient-to-r hover:from-cyan-400 hover:via-orange-400 hover:to-pink-500">
                                     Dashboard
                                 </label>
@@ -81,35 +80,32 @@ const Navbar = () => {
                                             <NavLink to={link.to} className={navLinkClass}>{link.name}</NavLink>
                                         </li>
                                     ))}
+                                    <li>
+                                        <button onClick={handleLogout} className="px-4 py-2 text-sm rounded-lg w-full text-left text-slate-700 hover:text-white hover:bg-gradient-to-r hover:from-cyan-400 hover:via-orange-400 hover:to-pink-500">
+                                            Logout
+                                        </button>
+                                    </li>
                                 </ul>
                             </li>
                         )}
                     </ul>
                 </div>
 
-                {/* RIGHT: Desktop Login / Logout */}
+                {/* RIGHT: Desktop Login */}
                 <div className="hidden lg:flex ml-auto z-10">
-                    {!user ? (
+                    {!user && (
                         <NavLink
                             to="/login"
                             className="btn text-white border-none bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500"
                         >
                             Login
                         </NavLink>
-                    ) : (
-                        <button
-                            onClick={handleLogout}
-                            className="btn text-white border-none bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500"
-                        >
-                            Logout
-                        </button>
                     )}
                 </div>
 
                 {/* MOBILE: Hamburger + Dropdown */}
-                <div className="flex lg:hidden items-center justify-between w-full">
-                    {/* Hamburger icon */}
-                    <div className="dropdown z-10">
+                <div className="flex lg:hidden items-center ml-auto w-full justify-end">
+                    <div className="dropdown dropdown-end z-10">
                         <label tabIndex={0} className="btn btn-ghost btn-circle">
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
@@ -129,45 +125,32 @@ const Navbar = () => {
                                     <li>
                                         <NavLink to="/join-hr" className={navLinkClass}>Join as HR Manager</NavLink>
                                     </li>
+                                    <li>
+                                        <NavLink to="/login" className={navLinkClass}>Login</NavLink>
+                                    </li>
                                 </>
                             )}
 
                             {user && (
-                                <>
-                                    <li className="dropdown">
-                                        <label tabIndex={0} className="cursor-pointer px-4 py-2 rounded-lg text-slate-700 hover:text-white hover:bg-gradient-to-r hover:from-cyan-400 hover:via-orange-400 hover:to-pink-500">
-                                            Dashboard
-                                        </label>
-                                        <ul className="menu p-2">
-                                            {roleLinks.map(link => (
-                                                <li key={link.to}>
-                                                    <NavLink to={link.to} className={navLinkClass}>{link.name}</NavLink>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </li>
-                                </>
+                                <li className="dropdown">
+                                    <label tabIndex={0} className="cursor-pointer px-4 py-2 rounded-lg text-slate-700 hover:text-white hover:bg-gradient-to-r hover:from-cyan-400 hover:via-orange-400 hover:to-pink-500">
+                                        Dashboard
+                                    </label>
+                                    <ul className="menu p-2 mt-2 bg-white rounded-xl shadow">
+                                        {roleLinks.map(link => (
+                                            <li key={link.to}>
+                                                <NavLink to={link.to} className={navLinkClass}>{link.name}</NavLink>
+                                            </li>
+                                        ))}
+                                        <li>
+                                            <button onClick={handleLogout} className="px-4 py-2 text-sm rounded-lg w-full text-left text-slate-700 hover:text-white hover:bg-gradient-to-r hover:from-cyan-400 hover:via-orange-400 hover:to-pink-500">
+                                                Logout
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </li>
                             )}
                         </ul>
-                    </div>
-
-                    {/* Mobile Login/Logout */}
-                    <div className="ml-auto z-10">
-                        {!user ? (
-                            <NavLink
-                                to="/login"
-                                className="btn btn-sm text-white border-none bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500"
-                            >
-                                Login
-                            </NavLink>
-                        ) : (
-                            <button
-                                onClick={handleLogout}
-                                className="btn btn-sm text-white border-none bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500"
-                            >
-                                Logout
-                            </button>
-                        )}
                     </div>
                 </div>
 
