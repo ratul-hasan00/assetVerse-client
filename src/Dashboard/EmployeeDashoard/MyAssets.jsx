@@ -21,7 +21,7 @@ const MyAssets = () => {
       setLoading(true);
       try {
         const res = await axios.get(
-          `http://localhost:3000/assigned-assets?email=${user.email}`
+          `https://asset-verse-server-mocha.vercel.app/assigned-assets?email=${user.email}`
         );
 
         const data = res.data.map((a) => ({
@@ -57,7 +57,7 @@ const MyAssets = () => {
     if (!window.confirm("Are you sure you want to return this asset?")) return;
 
     try {
-      await axios.put(`http://localhost:3000/assigned-assets/${id}`);
+      await axios.put(`https://asset-verse-server-mocha.vercel.app/assigned-assets/${id}`);
       setAssets((prev) =>
         prev.map((a) => (a._id === id ? { ...a, status: "returned" } : a))
       );

@@ -36,7 +36,7 @@ const AddAsset = () => {
 
             const token = await currentUser.getIdToken(); // ✅ Get Firebase token
 
-            const res = await fetch("http://localhost:3000/assets", {
+            const res = await fetch("https://asset-verse-server-mocha.vercel.app/assets", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

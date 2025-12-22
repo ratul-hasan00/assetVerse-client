@@ -11,7 +11,7 @@ const UpgradePackage = () => {
   const [payments, setPayments] = useState([]);
   const [processingId, setProcessingId] = useState(null);
 
-  const SERVER_URL = "http://localhost:3000";
+  const SERVER_URL = "https://asset-verse-server-mocha.vercel.app";
 
   // Fetch packages
   useEffect(() => {

@@ -9,7 +9,7 @@ import "../../RobotLoader/RobotLoader.css";
 const EmployeeEditProfile = () => {
   const { user, profile, loading, refreshProfile } = useContext(AuthContext);
   const navigate = useNavigate();
-  const API_URL = "http://localhost:3000";
+  const API_URL = "https://asset-verse-server-mocha.vercel.app";
 
   // Initialize state from profile safely
   const [displayName, setDisplayName] = useState(profile?.name || "");

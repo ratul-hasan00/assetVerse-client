@@ -18,7 +18,7 @@ const Home = () => {
     useEffect(() => {
         const fetchPackages = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/packages");
+                const res = await axios.get("https://asset-verse-server-mocha.vercel.app/packages");
                 setPackages(res.data);
             } catch (err) {
                 console.error("Failed to fetch packages:", err);

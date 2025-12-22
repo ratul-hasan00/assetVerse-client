@@ -12,7 +12,7 @@ const EmployeeProfile = () => {
     const [affiliations, setAffiliations] = useState([]);
     const navigate = useNavigate();
 
-    const API_URL = "http://localhost:3000";
+    const API_URL = "https://asset-verse-server-mocha.vercel.app";
 
     // Fetch employee affiliations
     useEffect(() => {

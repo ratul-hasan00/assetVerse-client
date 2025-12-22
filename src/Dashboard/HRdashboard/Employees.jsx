@@ -11,7 +11,7 @@ const Employees = () => {
   const [employees, setEmployees] = useState([]);
   const [dataLoading, setDataLoading] = useState(true);
 
-  const API_URL = "http://localhost:3000";
+  const API_URL = "https://asset-verse-server-mocha.vercel.app";
 
   // Fetch employees for HR's company
   const fetchEmployees = async () => {

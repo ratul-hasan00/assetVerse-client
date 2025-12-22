@@ -16,7 +16,7 @@ const RequestAsset = () => {
   // Fetch assets
   const fetchAssets = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/assets");
+      const res = await axios.get("https://asset-verse-server-mocha.vercel.app/assets");
       const availableAssets = res.data.assets.filter(
         (asset) => asset.availableQuantity > 0
       );
@@ -32,7 +32,7 @@ const RequestAsset = () => {
     if (!user) return;
     try {
       const res = await axios.get(
-        `http://localhost:3000/requests?userEmail=${user.email}`
+        `https://asset-verse-server-mocha.vercel.app/requests?userEmail=${user.email}`
       );
       setRequests(res.data);
     } catch (err) {
@@ -74,7 +74,7 @@ const RequestAsset = () => {
     };
 
     try {
-      await axios.post("http://localhost:3000/requests", requestData);
+      await axios.post("https://asset-verse-server-mocha.vercel.app/requests", requestData);
       toast.success("Asset request submitted successfully!");
       setSelectedAsset(null);
       setNote("");

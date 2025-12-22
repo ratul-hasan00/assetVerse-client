@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
   const [profile, setProfile] = useState(null); // Full backend profile
   const [loading, setLoading] = useState(true);
 
-  const API_URL = "http://localhost:3000";
+  const API_URL = "https://asset-verse-server-mocha.vercel.app";
 
   // Register user
   const createUser = async (email, password, name, photoURL) => {

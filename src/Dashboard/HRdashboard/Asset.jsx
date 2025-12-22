@@ -26,7 +26,7 @@ const Asset = () => {
   const [editAsset, setEditAsset] = useState(null);
   const [dataLoading, setDataLoading] = useState(true);
 
-  const API_URL = "http://localhost:3000";
+  const API_URL = "https://asset-verse-server-mocha.vercel.app";
 
   /* ================= FETCH ASSETS ================= */
   useEffect(() => {

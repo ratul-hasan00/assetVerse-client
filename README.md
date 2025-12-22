@@ -6,7 +6,7 @@
 
 ## **Live Demo**
 
-[AssetVerse Live Site](https://your-frontend-url.com)
+[AssetVerse Live Site](https://asset-verse-d5365.web.app)
 
 ---
 

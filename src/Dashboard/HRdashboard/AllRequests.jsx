@@ -15,7 +15,7 @@ const AllRequests = () => {
         if (!user?.email) return;
 
         axios
-            .get(`http://localhost:3000/requests?hrEmail=${user.email}`)
+            .get(`https://asset-verse-server-mocha.vercel.app/requests?hrEmail=${user.email}`)
             .then((res) => {
                 setRequests(res.data);
                 setLoading(false);
@@ -30,7 +30,7 @@ const AllRequests = () => {
     // Approve or Reject request
     const handleAction = async (id, action) => {
         try {
-            await axios.put(`http://localhost:3000/requests/${id}`, {
+            await axios.put(`https://asset-verse-server-mocha.vercel.app/requests/${id}`, {
                 requestStatus: action,
                 processedBy: user.email
             });

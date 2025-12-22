@@ -81,7 +81,7 @@ const JoinHR = () => {
       };
 
       // 3️⃣ Post to backend
-      await axios.post("http://localhost:3000/users", hrData);
+      await axios.post("https://asset-verse-server-mocha.vercel.app/users", hrData);
 
       toast.success("HR Manager registered successfully! Login Now!");
       navigate("/login"); // Redirect to Home page

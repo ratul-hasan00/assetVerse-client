@@ -61,7 +61,7 @@ const JoinEmployee = () => {
             };
 
             // 3️⃣ Post to backend
-            await axios.post("http://localhost:3000/users", userData);
+            await axios.post("https://asset-verse-server-mocha.vercel.app/users", userData);
 
             toast.success("Employee registered successfully! Login Now!");
             navigate("/login"); // Redirect to Home page

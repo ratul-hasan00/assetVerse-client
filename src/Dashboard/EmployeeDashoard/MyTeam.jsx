@@ -18,7 +18,7 @@ const MyTeam = () => {
         if (!user?.email) return;
 
         axios
-            .get(`http://localhost:3000/employee-affiliations?email=${user.email}`)
+            .get(`https://asset-verse-server-mocha.vercel.app/employee-affiliations?email=${user.email}`)
             .then(res => {
                 setCompanies(res.data || []);
                 if (res.data?.length > 0) {
@@ -37,7 +37,7 @@ const MyTeam = () => {
         if (!selectedCompany) return;
 
         axios
-            .get(`http://localhost:3000/company-employees?company=${selectedCompany}`)
+            .get(`https://asset-verse-server-mocha.vercel.app/company-employees?company=${selectedCompany}`)
             .then(res => setTeamMembers(res.data || []))
             .catch(() => toast.error("Failed to load team members"));
     }, [selectedCompany]);
