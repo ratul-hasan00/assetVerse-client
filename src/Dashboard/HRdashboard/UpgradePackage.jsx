@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../Context/AuthContext";
+import RobotLoader from "../../RobotLoader/RobotLoader";
+import "../../RobotLoader/RobotLoader.css";
 
 const UpgradePackage = () => {
   const { profile, loading } = useContext(AuthContext);
@@ -65,7 +67,7 @@ const UpgradePackage = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[60vh]">
-        <span className="loading loading-spinner loading-lg"></span>
+        <RobotLoader></RobotLoader>
       </div>
     );
   }
