@@ -28,6 +28,7 @@ const Navbar = () => {
         { name: "Add Asset", to: "/dashboard/add-asset" },
         { name: "All Requests", to: "/dashboard/Allrequests" },
         { name: "Employee List", to: "/dashboard/employees" },
+        { name: "Upgarde Package", to: "/dashboard/upgrade" },
         { name: "Profile", to: "/dashboard/HRprofile" },
     ];
 

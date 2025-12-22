@@ -21,6 +21,9 @@ import EmployeeProfile from './Dashboard/EmployeeDashoard/EmployeeProfile.jsx';
 import AddAsset from './Dashboard/HRdashboard/AddAsset.jsx';
 import EmployeeEditProfile from './Dashboard/EmployeeDashoard/EmployeeEditProfile.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
+import UpgradePackage from './Dashboard/HRdashboard/UpgradePackage.jsx';
+import UpgradeSuccess from './Dashboard/HRdashboard/UpgradeSuccess.jsx';
+import UpgradeCancel from './Dashboard/HRdashboard/UpgradeCancel.jsx';
 
 
 
@@ -84,6 +87,18 @@ const router = createBrowserRouter([
       {
         path: '/dashboard/employees',
         element: <PrivateRoute><Employees></Employees></PrivateRoute>
+      },
+      {
+        path: '/dashboard/upgrade',
+        element: <PrivateRoute><UpgradePackage></UpgradePackage></PrivateRoute>
+      },
+      {
+        path: '/dashboard/upgrade-success',
+        element: <PrivateRoute><UpgradeSuccess></UpgradeSuccess></PrivateRoute>
+      },
+      {
+        path: '/dashboard/upgrade-cancelled',
+        element: <PrivateRoute><UpgradeCancel></UpgradeCancel></PrivateRoute>
       },
       {
         path: '/dashboard/HRprofile',
