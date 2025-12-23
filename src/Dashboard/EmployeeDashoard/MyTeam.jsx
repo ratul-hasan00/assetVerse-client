@@ -55,6 +55,7 @@ const MyTeam = () => {
 
     return (
         <div className="p-6">
+            <title>My Team</title>
             {/* Header */}
             <h2 className="text-3xl font-bold text-gray-800 mb-1">My Team</h2>
             <p className="text-gray-500 mb-6">

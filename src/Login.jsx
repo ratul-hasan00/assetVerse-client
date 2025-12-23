@@ -55,6 +55,7 @@ const Login = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-50 via-orange-50 to-pink-50 px-4">
+            <title>Login</title>
             <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 hover:shadow-3xl transition-shadow duration-300">
 
                 {/* Logo */}

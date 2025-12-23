@@ -74,6 +74,7 @@ const UpgradePackage = () => {
 
   return (
     <div className="min-h-screen px-4 py-10 bg-base-100">
+      <title>Upgrade Package</title>
       {/* Header */}
       <div className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 bg-clip-text text-transparent">

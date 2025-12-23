@@ -73,6 +73,7 @@ const Employees = () => {
 
   return (
     <div className="p-4 md:p-6">
+      <title>Employee List</title>
       {/* Header */}
       <div className="mb-6 rounded-2xl bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 p-6 text-white shadow-lg">
         <h1 className="text-2xl md:text-3xl font-bold">My Employee List</h1>

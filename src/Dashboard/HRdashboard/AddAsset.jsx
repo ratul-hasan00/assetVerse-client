@@ -63,6 +63,7 @@ const AddAsset = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-cyan-100 via-orange-100 to-pink-100 flex items-center justify-center px-4 py-10">
+            <title>Add Assets</title>
             <div className="w-full max-w-3xl bg-white rounded-3xl shadow-xl p-6 md:p-10">
 
                 {/* Header */}

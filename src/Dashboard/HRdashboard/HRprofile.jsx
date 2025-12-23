@@ -17,6 +17,7 @@ const HRprofile = () => {
 
   return (
     <div className="flex justify-center mt-8 pb-10">
+      <title>HR Profile</title>
       <div className="relative group">
         {/* Gradient border glow */}
         <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-500"></div>

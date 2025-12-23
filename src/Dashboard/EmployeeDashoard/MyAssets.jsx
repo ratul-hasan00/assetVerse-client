@@ -113,6 +113,7 @@ const MyAssets = () => {
 
   return (
     <div className="p-6">
+      <title>My Assets</title>
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div>

@@ -79,6 +79,7 @@ const JoinEmployee = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-50 via-orange-50 to-pink-50 px-4 py-10">
+            <title>Join As Employee</title>
             <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-8 hover:shadow-3xl transition-shadow">
                 {/* Header */}
                 <div className="flex flex-col items-center mb-6">

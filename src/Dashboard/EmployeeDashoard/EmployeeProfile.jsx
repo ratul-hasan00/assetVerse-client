@@ -37,6 +37,7 @@ const EmployeeProfile = () => {
 
     return (
         <div className="flex justify-center mt-8 pb-10">
+            <title>Employee Profile</title>
             {/* Card Wrapper with hover gradient border */}
             <div className="relative group">
                 {/* Gradient border effect */}

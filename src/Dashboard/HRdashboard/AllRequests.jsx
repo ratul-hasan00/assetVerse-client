@@ -53,6 +53,7 @@ const AllRequests = () => {
 
     return (
         <div className="p-4 sm:p-6 lg:p-8">
+            <title>All Requests</title>
             <h2 className="text-3xl font-bold mb-2 text-gray-800">
                 All Asset Requests
             </h2>
